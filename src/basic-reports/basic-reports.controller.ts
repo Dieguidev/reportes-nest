@@ -11,6 +11,7 @@ export class BasicReportsController {
     const pdfDoc = await this.basicReportsService.hello();
 
     response.setHeader('Content-Type', 'application/pdf');
+    pdfDoc.info.Title = 'Hola mundo'
     pdfDoc.pipe(response);
     pdfDoc.end();
   }
