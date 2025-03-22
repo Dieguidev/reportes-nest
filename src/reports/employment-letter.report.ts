@@ -4,6 +4,7 @@ import type {
   TDocumentDefinitions,
 } from 'pdfmake/interfaces';
 import { DateFormater } from 'src/helpers';
+import { headerSection } from './sections/header.section';
 
 const style: StyleDictionary = {
   header: {
@@ -29,29 +30,17 @@ const style: StyleDictionary = {
   },
 };
 
-const logo: Content = {
-  image: 'src/assets/tucan-code-logo.png',
-  width: 100,
-  height: 100,
-  alignment: 'center',
-  margin: [0, 0, 0, 20],
-};
+
 
 export const getEmploymentLetterReport = (): TDocumentDefinitions => {
   const docDefinition: TDocumentDefinitions = {
     styles: style,
     pageMargins: [40, 60, 40, 60],
 
-    header: {
-      columns: [
-        logo,
-        {
-          text: DateFormater.getDDMMMYYYY(new Date()),
-          alignment: 'right',
-          margin: [20, 20],
-        },
-      ],
-    },
+    header: headerSection({
+      showLogo: true,
+      showDate: true,
+    }),
 
     content: [
       {
