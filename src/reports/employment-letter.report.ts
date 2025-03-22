@@ -1,4 +1,9 @@
-import type { Content, StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+import type {
+  Content,
+  StyleDictionary,
+  TDocumentDefinitions,
+} from 'pdfmake/interfaces';
+import { DateFormater } from 'src/helpers';
 
 const style: StyleDictionary = {
   header: {
@@ -30,7 +35,7 @@ const logo: Content = {
   height: 100,
   alignment: 'center',
   margin: [0, 0, 0, 20],
-}
+};
 
 export const getEmploymentLetterReport = (): TDocumentDefinitions => {
   const docDefinition: TDocumentDefinitions = {
@@ -38,11 +43,14 @@ export const getEmploymentLetterReport = (): TDocumentDefinitions => {
     pageMargins: [40, 60, 40, 60],
 
     header: {
-      columns: [logo, {
-        text: `${new Date()}`,
-        alignment: 'right',
-        margin: [20, 20],
-      }]
+      columns: [
+        logo,
+        {
+          text: DateFormater.getDDMMMYYYY(new Date()),
+          alignment: 'right',
+          margin: [20, 20],
+        },
+      ],
     },
 
     content: [
@@ -81,7 +89,7 @@ export const getEmploymentLetterReport = (): TDocumentDefinitions => {
     footer: {
       text: 'Este documento es una constancia de empleo y no representa un compromiso laboral.',
       style: 'footer',
-    }
+    },
   };
 
   return docDefinition;
