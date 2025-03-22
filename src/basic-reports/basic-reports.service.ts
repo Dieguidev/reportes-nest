@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
-import { getHelloWorldReport } from 'src/reports';
-import { getEmploymentLetterReport } from 'src/reports/employment-letter.report';
+import { getEmploymentLetterByIdReport, getEmploymentLetterReport, getHelloWorldReport } from 'src/reports';
+
 
 @Injectable()
 export class BasicReportsService {
@@ -38,7 +37,16 @@ export class BasicReportsService {
       throw new NotFoundException('Employee not found');
     }
 
-    const docDefinition = getEmploymentLetterReport();
+    const docDefinition = getEmploymentLetterByIdReport({
+      employeeHours: employee.hours_per_day,
+      employeeName: employee.name,
+      employeePosition: employee.position,
+      employeeStartDate: employee.start_date,
+      employeeWorkSchedule: employee.work_schedule,
+      employerCompany: 'Company Dieguidev',
+      employerName: 'Diego Garay',
+      employerPosition: 'Gerente',
+    });
 
     const doc = this.printerService.createPdf(docDefinition);
 
