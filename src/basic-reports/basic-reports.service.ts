@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
@@ -21,6 +21,23 @@ export class BasicReportsService {
   }
 
   employmentLetter() {
+    const docDefinition = getEmploymentLetterReport();
+
+    const doc = this.printerService.createPdf(docDefinition);
+
+    return doc;
+  }
+  async employmentLetterById(employeeId: number) {
+    const employee = await this.prisma.employees.findUnique({
+      where: {
+        id: employeeId,
+      },
+    })
+
+    if (!employee) {
+      throw new NotFoundException('Employee not found');
+    }
+
     const docDefinition = getEmploymentLetterReport();
 
     const doc = this.printerService.createPdf(docDefinition);
