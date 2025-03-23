@@ -36,6 +36,6 @@ export const headerSection = (options: HeaderOptions): Content => {
       }
     : '';
   return {
-    columns: [headerLogo, headerDate],
+    columns: [headerLogo,headerTitle, headerDate],
   };
 };
