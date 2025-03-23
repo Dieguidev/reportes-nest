@@ -1,0 +1,4 @@
+{
+    "editor.defaultFoldingRangeProvider": "fractalbrew.backticks",
+    "editor.defaultFormatter": "fractalbrew.backticks"
+}
