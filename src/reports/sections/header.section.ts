@@ -12,7 +12,7 @@ const logo: Content = {
 const currentDate: Content = {
   text: DateFormater.getDDMMMYYYY(new Date()),
   alignment: 'right',
-}
+};
 
 interface HeaderOptions {
   title?: string;
@@ -59,14 +59,16 @@ export const headerSection = (options: HeaderOptions): Content => {
   return {
     columns: [
       { width: 100, stack: [headerLogo] },
-      { width: '*', alignment: 'center', stack: [headerTitle] }, // Título en el centro con ancho adaptable
+      { width: '*', alignment: 'center', stack: [headerTitle] },
       {
         width: 150,
-        stack: [{
-          text: headerDate,
-          alignment: 'right',
-          margin: [0, 40, 20, 0] // Ajuste de margen para centrar verticalmente
-        }]
+        stack: [
+          {
+            text: headerDate,
+            alignment: 'right',
+            margin: [0, 40, 20, 0],
+          },
+        ],
       },
     ],
   };
