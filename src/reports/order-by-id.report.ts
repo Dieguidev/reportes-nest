@@ -3,6 +3,7 @@ import {
   StyleDictionary,
   TDocumentDefinitions,
 } from 'pdfmake/interfaces';
+import { footerSection } from './sections/footer.section';
 
 const logo: Content = {
   image: 'src/assets/tucan-banner.png',
@@ -18,6 +19,11 @@ const styles: StyleDictionary = {
     bold: true,
     margin: [0, 30, 0, 0],
   },
+  subHeader: {
+    fontSize: 16,
+    bold: true,
+    margin: [0, 0, 0, 20],
+  }
 };
 
 export const orderByIdReport = (): TDocumentDefinitions => {
@@ -25,11 +31,14 @@ export const orderByIdReport = (): TDocumentDefinitions => {
     styles: styles,
     header: logo,
     pageMargins: [40, 60, 40, 60],
+    footer: footerSection,
     content: [
+      //Header
       {
         text: 'Dieguidev Code',
         style: 'header',
       },
+      //Direccion y fechas
       {
         columns: [
           {
@@ -39,11 +48,34 @@ export const orderByIdReport = (): TDocumentDefinitions => {
                     https://devtalles.com`,
           },
           {
-            text: `Recibo No#: 10255
-                    Fecha del recibo: 11 de julio de 2021
+            text: [
+              {
+                text: `Recibo No#: 10255\n`,
+                bold: true,
+              },
+              `Fecha del recibo: 11 de julio de 2021
                     Pagar antes de: 18 de mayo de 2024`,
+            ],
             alignment: 'right',
           },
+        ],
+      },
+      //QR Code
+      {
+        qr: 'https://gist.github.com/Klerith/57b69f3496abd9b82eae240eb1c8ce35',
+        fit: 75,
+        alignment: 'right',
+      },
+      //Direccion del cliente
+      {
+        text: [
+          {
+            text: `Cobrar a: \n`,
+            style: 'subHeader'
+          },
+          `\nRazón Social: Richter Supermarkt
+Michael Holz
+Grenzacherweg 237`,
         ],
       },
     ],
