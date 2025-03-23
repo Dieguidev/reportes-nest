@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { continents } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
 import {
@@ -57,15 +58,21 @@ export class BasicReportsService {
     return doc;
   }
 
-  async getCountriesReport() {
+  async getCountriesReport(continent?: string) {
+
+    if(continent && !Object.values(continents).includes(continent as continents)){
+      throw new NotFoundException('Continent not found');
+    }
+
     const countries = await this.prisma.countries.findMany({
       where: {
         local_name: {
           not: null,
         },
-
+        continent: {
+          equals: continent as continents,
+        },
       },
-
     });
 
     const docDefinition = getCountriesReport({ countries });
