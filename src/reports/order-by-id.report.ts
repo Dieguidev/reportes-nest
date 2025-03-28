@@ -4,6 +4,8 @@ import {
   TDocumentDefinitions,
 } from 'pdfmake/interfaces';
 import { footerSection } from './sections/footer.section';
+import { CurrencyFormatter } from 'src/helpers/currency-formatter';
+import { orders as Order } from '@prisma/client';
 
 const logo: Content = {
   image: 'src/assets/tucan-banner.png',
@@ -23,10 +25,53 @@ const styles: StyleDictionary = {
     fontSize: 16,
     bold: true,
     margin: [0, 0, 0, 20],
-  }
+  },
 };
 
-export const orderByIdReport = (): TDocumentDefinitions => {
+export interface CompleteOrder {
+  order_id: number;
+  customer_id: number;
+  order_date: Date;
+  customers: Customers;
+  order_details: OrderDetail[];
+}
+
+export interface Customers {
+  customer_id: number;
+  customer_name: string;
+  contact_name: string;
+  address: string;
+  city: string;
+  postal_code: string;
+  country: string;
+}
+
+export interface OrderDetail {
+  order_detail_id: number;
+  order_id: number;
+  product_id: number;
+  quantity: number;
+  products: Products;
+}
+
+export interface Products {
+  product_id: number;
+  product_name: string;
+  category_id: number;
+  unit: string;
+  price: string;
+}
+
+interface ReportValues {
+  title?: string;
+  subtitle?: string;
+  data: CompleteOrder;
+}
+
+export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
+  const { data } = value;
+
+  console.log(data);
   return {
     styles: styles,
     header: logo,
@@ -71,11 +116,68 @@ export const orderByIdReport = (): TDocumentDefinitions => {
         text: [
           {
             text: `Cobrar a: \n`,
-            style: 'subHeader'
+            style: 'subHeader',
           },
           `\nRazón Social: Richter Supermarkt
-Michael Holz
-Grenzacherweg 237`,
+            Michael Holz
+            Grenzacherweg 237`,
+        ],
+      },
+      //Tabla del detalle de la orden
+      {
+        layout: 'headerLineOnly',
+        margin: [0, 20],
+        table: {
+          headerRows: 1,
+          widths: ['auto', '*', 'auto', 'auto', 'auto'],
+          body: [
+            ['ID', 'Descripción', 'Cantidad', 'Precio', 'Total'],
+            [
+              '1',
+              'Producto 1',
+              '2',
+              '10',
+              {
+                text: CurrencyFormatter.formatCurrency(20),
+                alignment: 'right',
+              },
+            ],
+          ],
+        },
+      },
+
+      //Salto
+      '\n',
+      //totales
+      {
+        columns: [
+          {
+            width: '*',
+            text: '',
+          },
+          {
+            width: 'auto',
+            layout: 'noBorders',
+            table: {
+              body: [
+                [
+                  'Subtotal',
+                  {
+                    text: CurrencyFormatter.formatCurrency(4000),
+                    alignment: 'right',
+                  },
+                ],
+                [
+                  { text: 'Total', bold: true },
+                  {
+                    text: CurrencyFormatter.formatCurrency(4000),
+                    alignment: 'right',
+                    bold: true,
+                  },
+                ],
+              ],
+            },
+          },
         ],
       },
     ],
