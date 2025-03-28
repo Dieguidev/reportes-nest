@@ -39,4 +39,12 @@ export class StoreReportsService {
 
     return doc;
   }
+
+  async getSvgChart() {
+    const docDefinition = getHelloWorldReport({ name: 'John Doe' });
+
+    const doc = this.printerService.createPdf(docDefinition);
+
+    return doc;
+  }
 }
