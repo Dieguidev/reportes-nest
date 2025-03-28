@@ -6,6 +6,7 @@ import {
 import { footerSection } from './sections/footer.section';
 import { CurrencyFormatter } from 'src/helpers/currency-formatter';
 import { orders as Order } from '@prisma/client';
+import { DateFormater } from 'src/helpers';
 
 const logo: Content = {
   image: 'src/assets/tucan-banner.png',
@@ -69,9 +70,16 @@ interface ReportValues {
 }
 
 export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
-  const { data } = value;
+  const {
+    data: { customers, order_details, order_id, order_date },
+  } = value;
 
-  console.log(data);
+  const subtotal = order_details.reduce((acc, item) => {
+    return acc + item.quantity * parseFloat(item.products.price);
+  }, 0);
+  const total = subtotal * 1.13;
+
+  console.log(JSON.stringify(order_details, null, 2));
   return {
     styles: styles,
     header: logo,
@@ -95,10 +103,10 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
           {
             text: [
               {
-                text: `Recibo No#: 10255\n`,
+                text: `Recibo No#: ${order_id}\n`,
                 bold: true,
               },
-              `Fecha del recibo: 11 de julio de 2021
+              `Fecha del recibo: ${DateFormater.getDDMMMYYYY(order_date)}
                     Pagar antes de: 18 de mayo de 2024`,
             ],
             alignment: 'right',
@@ -118,9 +126,10 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
             text: `Cobrar a: \n`,
             style: 'subHeader',
           },
-          `\nRazón Social: Richter Supermarkt
-            Michael Holz
-            Grenzacherweg 237`,
+          `\nRazón Social: ${customers.customer_name}
+          ${customers.contact_name}
+          ${customers.address}
+            `,
         ],
       },
       //Tabla del detalle de la orden
@@ -132,16 +141,24 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
           widths: ['auto', '*', 'auto', 'auto', 'auto'],
           body: [
             ['ID', 'Descripción', 'Cantidad', 'Precio', 'Total'],
-            [
-              '1',
-              'Producto 1',
-              '2',
-              '10',
+            ...order_details.map((item) => [
+              item.product_id.toString() || '',
+              item.products.product_name || '',
+              item.quantity.toString() || '',
               {
-                text: CurrencyFormatter.formatCurrency(20),
+                text: CurrencyFormatter.formatCurrency(
+                  parseFloat(item.products.price),
+                ),
                 alignment: 'right',
               },
-            ],
+              {
+                text:
+                  CurrencyFormatter.formatCurrency(
+                    item.quantity * parseFloat(item.products.price),
+                  ) || '',
+                alignment: 'right',
+              },
+            ]),
           ],
         },
       },
@@ -163,14 +180,14 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
                 [
                   'Subtotal',
                   {
-                    text: CurrencyFormatter.formatCurrency(4000),
+                    text: CurrencyFormatter.formatCurrency(subtotal),
                     alignment: 'right',
                   },
                 ],
                 [
                   { text: 'Total', bold: true },
                   {
-                    text: CurrencyFormatter.formatCurrency(4000),
+                    text: CurrencyFormatter.formatCurrency(total),
                     alignment: 'right',
                     bold: true,
                   },
