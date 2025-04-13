@@ -64,7 +64,14 @@ export class StoreReportsService {
       take: 10,
     });
 
-    const docDefinition = await getStatisticsReport({});
+    const topCountriesFormatted = topCountries.map(({ country, _count }) => ({
+      country: country as string,
+      customers: _count,
+    }));
+
+    const docDefinition = await getStatisticsReport({
+      topCountries: topCountriesFormatted,
+    });
 
     const doc = this.printerService.createPdf(docDefinition);
 
