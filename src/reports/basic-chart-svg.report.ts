@@ -11,41 +11,55 @@ const generateChartImage = async () => {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
-          type: 'line',
-          label: 'Dataset 1',
+          label: 'Mi gráfico',
           borderColor: 'rgb(54, 162, 235)',
-          borderWidth: 2,
-          fill: false,
-          data: [-33, 26, 29, 89, -41, 70, -84],
-        },
-        {
-          label: 'Dataset 2',
-          backgroundColor: 'rgb(255, 99, 132)',
-          data: [-42, 73, -69, -94, -81, 18, 87],
-          borderColor: 'white',
-          borderWidth: 2,
-        },
-        {
-          label: 'Dataset 3',
-          backgroundColor: 'rgb(75, 192, 192)',
-          data: [93, 60, -15, 77, -59, 82, -44],
+          borderWidth: 1,
+          data: [33, 26, 29, 89, 41, 70, 84],
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
         },
       ],
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'My chart',
-      },
     },
   };
 
   return Utils.chartJsToImage(chartConfig);
 };
 
+const generateDonut = async () => {
+  const DATA_COUNT = 5;
+  const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+
+  const data = {
+    labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: Utils.numbers(NUMBER_CFG),
+        backgroundColor: Object.values(Utils.CHART_COLORS),
+      },
+    ],
+  };
+
+  const config = {
+    type: 'doughnut',
+    data: data,
+    options: {
+      title: {
+        display: true,
+        text: 'Chart.js Doughnut Chart',
+      },
+    },
+  };
+
+  return Utils.chartJsToImage(config);
+};
+
 export const getBasicChartSvgReport =
   async (): Promise<TDocumentDefinitions> => {
-    const chart = await generateChartImage();
+    const [chart, chartDonut] = await Promise.all([
+      generateChartImage(),
+      generateDonut(),
+    ]);
+
     return {
       content: [
         {
@@ -55,6 +69,10 @@ export const getBasicChartSvgReport =
         },
         {
           image: chart,
+          width: 500,
+        },
+        {
+          image: chartDonut,
           width: 500,
         },
       ],
