@@ -5,6 +5,7 @@ import { PrinterService } from 'src/printer/printer.service';
 import {
   getBasicChartSvgReport,
   getHelloWorldReport,
+  getStatisticsReport,
   orderByIdReport,
 } from 'src/reports';
 
@@ -45,6 +46,25 @@ export class StoreReportsService {
 
   async getSvgChart() {
     const docDefinition = await getBasicChartSvgReport();
+
+    const doc = this.printerService.createPdf(docDefinition);
+
+    return doc;
+  }
+
+  async getStatistics() {
+    const topCountries = await this.prisma.customers.groupBy({
+      by: ['country'],
+      _count: true,
+      orderBy: {
+        _count: {
+          country: 'desc',
+        },
+      },
+      take: 10,
+    });
+
+    const docDefinition = await getStatisticsReport({});
 
     const doc = this.printerService.createPdf(docDefinition);
 
