@@ -3,6 +3,7 @@ import * as Utils from '../helpers/chart-utils';
 import { generateDonutChart } from './charts/donut.chart';
 import { headerSection } from './sections/header.section';
 import { generateLineChart } from './charts/line.chart';
+import { generateBarChart } from './charts/barchart.chart';
 
 interface TopCountry {
   country: string;
@@ -20,7 +21,7 @@ export const getStatisticsReport = async (
 ): Promise<TDocumentDefinitions> => {
   const { title, subtitle, topCountries } = options;
 
-  const [donutChart, lineChart] = await Promise.all([
+  const [donutChart, lineChart, barChart, barChart2] = await Promise.all([
     generateDonutChart({
       entries: topCountries.map((c) => ({
         label: c.country,
@@ -29,6 +30,8 @@ export const getStatisticsReport = async (
       position: 'left',
     }),
     generateLineChart(),
+    generateBarChart(),
+    generateBarChart(),
   ]);
 
   const docDefinition: TDocumentDefinitions = {
@@ -78,6 +81,21 @@ export const getStatisticsReport = async (
         image: lineChart,
         width: 500,
         margin: [0, 20, 0, 0],
+      },
+      {
+        columnGap: 10,
+        columns: [
+          {
+            image: barChart,
+            width: 250,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            image: barChart,
+            width: 250,
+            margin: [0, 20, 0, 0],
+          },
+        ],
       },
     ],
   };
