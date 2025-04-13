@@ -13,46 +13,6 @@ interface ReportOptions {
   subtitle?: string;
 }
 
-const generateTopCountryDonut = async (
-  topCountry: TopCountry[],
-): Promise<string> => {
-  const data = {
-    labels: topCountry.map((country) => country.country),
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: topCountry.map((country) => country.customers),
-        // backgroundColor: Object.values(Utils.CHART_COLORS),
-      },
-    ],
-  };
-
-  const config = {
-    type: 'doughnut',
-    data: data,
-    options: {
-      legend: {
-        position: 'left',
-      },
-      plugins: {
-        datalabels: {
-          color: 'white',
-          font: {
-            weight: 'bold',
-            size: '14',
-          },
-        },
-      },
-      // title: {
-      //   display: true,
-      //   text: 'Chart.js Doughnut Chart',
-      // },
-    },
-  };
-
-  return Utils.chartJsToImage(config);
-};
-
 export const getStatisticsReport = async (
   options: ReportOptions,
 ): Promise<TDocumentDefinitions> => {
@@ -68,8 +28,40 @@ export const getStatisticsReport = async (
   const docDefinition: TDocumentDefinitions = {
     content: [
       {
-        image: donutChart,
-        width: 500,
+        columns: [
+          {
+            stack: [
+              {
+                text: '10 paises con más clientes',
+                alignment: 'center',
+                margin: [0, 0, 0, 10],
+              },
+              {
+                image: donutChart,
+                width: 320,
+              },
+            ],
+          },
+
+          {
+            layout: 'lightHorizontalLines',
+            width: 'auto',
+            table: {
+              headerRows: 1,
+              widths: [100, 'auto'],
+              body: [
+                [
+                  { text: 'Country', style: 'tableHeader' },
+                  { text: 'Customers', style: 'tableHeader' },
+                ],
+                ...topCountries.map((c) => [
+                  { text: c.country, style: 'tableData' },
+                  { text: c.customers, style: 'tableData' },
+                ]),
+              ],
+            },
+          },
+        ],
       },
     ],
   };
