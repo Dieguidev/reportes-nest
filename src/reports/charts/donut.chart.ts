@@ -23,7 +23,7 @@ export const generateDonutChart = async (
       {
         label: 'Dataset 1',
         data: options.entries.map((e) => e.value),
-        // backgroundColor: Object.values(Utils.CHART_COLORS),
+        backgroundColor: Object.values(Utils.CHART_COLORS),
       },
     ],
   };
