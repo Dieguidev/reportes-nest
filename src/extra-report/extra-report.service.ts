@@ -42,4 +42,23 @@ export class ExtraReportService {
 
     return doc;
   }
+
+  getCustomSize() {
+    const doc = this.printerService.createPdf({
+      // pageSize: 'A5',ç
+      pageSize: {
+        width: 150,
+        height: 150,
+      },
+      content: [
+        {
+          qr: 'https://www.google.com.pe/',
+          fit: 100,
+          alignment: 'center',
+        },
+      ],
+    });
+
+    return doc;
+  }
 }

@@ -81,7 +81,14 @@ export const getCommunityReport = (): TDocumentDefinitions => {
                 border: [true, false, false, false],
               },
               {
-                text: 'Nombre de la empresa',
+                text: (function () {
+                  const text =
+                    'Nombre de la empresaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+                  if (text.length > 40) {
+                    return text.substring(0, 40) + '...';
+                  }
+                  return text;
+                })(),
                 fillColor: 'white',
                 border: [true, false, false, false],
               },
@@ -156,8 +163,157 @@ export const getCommunityReport = (): TDocumentDefinitions => {
               {},
               {},
             ],
+            [
+              {
+                text: 'NOMBRE DEL PROYECTO',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, true, false],
+              },
+              {
+                text: 'Nombre del proyecto',
+                fillColor: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'CONTACTO',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'Nombre del contacto',
+                fillColor: 'white',
+                border: [true, false, true, false],
+              },
+            ],
+            [
+              {
+                text: 'DIRECCIÓN',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, false, false],
+              },
+              {
+                text: 'Direccion falsa 123',
+                fillColor: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'EMAIL',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'email@gmail.com',
+                fillColor: 'white',
+                border: [true, false, true, false],
+              },
+            ],
+            [
+              {
+                text: 'CIUDAD',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, true, true],
+              },
+              {
+                text: 'Santiago',
+                fillColor: 'white',
+                border: [true, false, false, true],
+              },
+              {
+                text: 'TELÉFONO',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, true],
+              },
+              {
+                text: '+56 2 24967000',
+                fillColor: 'white',
+                border: [true, false, true, true],
+              },
+            ],
+            [
+              {
+                text: '',
+                colSpan: 4,
+              },
+              {},
+              {},
+              {},
+            ],
+            [
+              {
+                text: 'VENDEDOR',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, true, false],
+              },
+              {
+                text: 'Nombre del vendedor',
+                fillColor: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'EMAIL',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'emailvendedor@gmail.com',
+                fillColor: 'white',
+                border: [true, false, true, false],
+              },
+            ],
+            [
+              {
+                text: 'TELÉFONO',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, true, true],
+              },
+              {
+                text: '+56 2 24967000',
+                fillColor: 'white',
+                border: [true, false, false, true],
+              },
+              {
+                text: '',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, true],
+              },
+              {
+                text: '',
+                fillColor: 'white',
+                border: [true, false, true, true],
+              },
+            ],
           ],
         },
+      },
+      //Linea Horizontal
+      {
+        margin: [0, 5],
+        canvas: [
+          {
+            type: 'line',
+            x1: 0,
+            y1: 5,
+            x2: 515,
+            y2: 5,
+            lineWidth: 2,
+            lineColor: '#3A4546',
+          },
+        ],
       },
     ],
   };
