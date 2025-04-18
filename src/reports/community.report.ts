@@ -55,6 +55,110 @@ export const getCommunityReport = (): TDocumentDefinitions => {
           },
         ],
       },
+
+      //Detalles del cliente
+      {
+        table: {
+          widths: ['auto', '*', 'auto', '*'],
+          body: [
+            [
+              {
+                text: 'Datos del Cliente',
+                fillColor: '#5775e1',
+                color: 'white',
+                colSpan: 4,
+              },
+              {},
+              {},
+              {},
+            ],
+            [
+              {
+                text: 'RAZÓN SOCIAL',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, false, false],
+              },
+              {
+                text: 'Nombre de la empresa',
+                fillColor: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'DIRECCIÓN',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'Direccion falsa 123',
+                fillColor: 'white',
+                border: [true, false, true, false],
+              },
+            ],
+            [
+              {
+                text: 'RUT',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, false, false],
+              },
+              {
+                text: '76.123.456-7',
+                fillColor: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: 'TELÉFONO',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, false],
+              },
+              {
+                text: '+56 2 24967000',
+                fillColor: 'white',
+                border: [true, false, true, false],
+              },
+            ],
+            [
+              {
+                text: 'GIRO',
+                fillColor: '#343A40',
+                color: 'white',
+                bold: true,
+                border: [true, false, true, true],
+              },
+              {
+                text: 'Comercializadora de productos forestales',
+                fillColor: 'white',
+                border: [true, false, false, true],
+              },
+              {
+                text: 'CONDICIÓN DE PAGO',
+                fillColor: '#343A40',
+                color: 'white',
+                border: [true, false, false, true],
+              },
+              {
+                text: 'Contado',
+                fillColor: 'white',
+                border: [true, false, true, true],
+              },
+            ],
+            [
+              {
+                text: '',
+                colSpan: 4,
+              },
+              {},
+              {},
+              {},
+            ],
+          ],
+        },
+      },
     ],
   };
 
